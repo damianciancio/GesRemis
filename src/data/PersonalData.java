@@ -9,7 +9,7 @@ import util.exception.DataBaseConnectionException;
 
 public class PersonalData {
 	
-	public ArrayList<Personal> getAll() throws ClassNotFoundException, DataBaseConnectionException, Exception {
+	public ArrayList<Personal> getAll() throws ClassNotFoundException, DataBaseConnectionException,ConsultaSQLException, Exception {
 		ArrayList personal = null;
 		Connection conn = null;
 		PreparedStatement stmt = null;

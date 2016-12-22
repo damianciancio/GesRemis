@@ -3,7 +3,7 @@ package business.entities;
 import java.util.Date;
 
 public class Personal {
-	private int id;
+	private int legajo;
 	private String dni;
 	private String apellido;
 	private String nombre;
@@ -12,11 +12,11 @@ public class Personal {
 	private Date fechaIncorporacion;
 	private TipoPersonal tipo;
 	
-	public int getId() {
-		return id;
+	public int getLegajo() {
+		return legajo;
 	}
-	public void setId(int id) {
-		this.id = id;
+	public void setLegajo(int legajo) {
+		this.legajo = legajo;
 	}
 	public String getDni() {
 		return dni;
@@ -59,5 +59,8 @@ public class Personal {
 	}
 	public void setTipo(TipoPersonal tipo) {
 		this.tipo = tipo;
+	}
+	public void setTipo(String tipo) {
+		this.tipo = TipoPersonal.valueOf(tipo);
 	}
 }

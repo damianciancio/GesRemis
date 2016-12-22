@@ -13,7 +13,5 @@
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
-	<classpathentry kind="lib" path="src/log4j2.xml"/>
-	<classpathentry kind="lib" path="src/GesRemis.log"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

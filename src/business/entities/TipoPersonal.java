@@ -1,5 +1,5 @@
 package business.entities;
 
 public enum TipoPersonal {
-	Chofer, Recepcionista
+	Chofer, Recepcionista, Administrativo, Desarrollador
 }

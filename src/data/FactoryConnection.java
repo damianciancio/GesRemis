@@ -10,10 +10,10 @@ import util.exception.DataBaseConnectionException;
 public class FactoryConnection {
 	//Capturo datos de config.properties
 		private String dbDriver="com.mysql.jdbc.Driver";
-		private String host;
+		private String host="localhost";
 		private String port="3306";
-		private String user;
-		private String pass;
+		private String user="root";
+		private String pass="root";
 		private String db="ges_remis";
 		private String dbType="mysql";
 		
@@ -24,8 +24,8 @@ public class FactoryConnection {
 			try {
 				Class.forName(dbDriver);
 				
-				Properties propiedades = new Properties();
-			    InputStream entrada = null;
+				//Properties propiedades = new Properties();
+			    //InputStream entrada = null;
 			    
 			    //entrada = new FileInputStream("configs/config.properties");
 			    //propiedades.load(entrada);
@@ -34,10 +34,10 @@ public class FactoryConnection {
 			    //user = propiedades.getProperty("user");
 			    //pass = propiedades.getProperty("pass");
 			    
-			    host = "localhost";
-			    user = "root";
+			    //host = "localhost";
+			    //user = "root";
 	    		//pass = "";
-	    		pass = "root";
+	    		//pass = "root";
 			    
 				
 			} catch (ClassNotFoundException e) {

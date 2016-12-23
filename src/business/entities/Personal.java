@@ -11,7 +11,21 @@ public class Personal {
 	private String telefono;
 	private Date fechaIncorporacion;
 	private TipoPersonal tipo;
+	private String usuario;
+	private String contrasenia;
 	
+	public String getUsuario() {
+		return usuario;
+	}
+	public void setUsuario(String usuario) {
+		this.usuario = usuario;
+	}
+	public String getContrasenia() {
+		return contrasenia;
+	}
+	public void setContrasenia(String contrasenia) {
+		this.contrasenia = contrasenia;
+	}
 	public int getLegajo() {
 		return legajo;
 	}

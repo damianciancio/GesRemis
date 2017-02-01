@@ -70,6 +70,8 @@ public class PersonalData {
 		per.setTelefono(rs.getString(6));
 		per.setFechaIncorporacion(rs.getDate(7));
 		per.setTipo(rs.getString(8));
+		per.setUsuario(rs.getString(9));
+		per.setContrasenia(rs.getString(10));
 		return per;
 	}
 	
@@ -80,13 +82,16 @@ public class PersonalData {
 		Personal found = null;
 		String query = "SELECT `personal`.`legajo`,`personal`.`dni`, "
 					+ "`personal`.`apellido`, `personal`.`nombre`, `personal`.`direccion`, `personal`.`telefono`, "
-					+ "`personal`.`fecha_incorporacion`, `personal`.`tipo` FROM personal where personal.legajo = ?";
+					+ "`personal`.`fecha_incorporacion`, `personal`.`tipo`, `personal`.`usuario`,`personal`.`contrasenia` "
+					+ "FROM personal where personal.legajo = ?";
 		
 		try {
 			stmt= FactoryConnection.getInstancia().getConn().prepareStatement(query);
 			stmt.setInt(1,buscado.getLegajo());
 			ResultSet rs = stmt.executeQuery();
-			found = this.mapToPersonalFromResultSet(rs);
+			if (rs.next()) {
+				found = this.mapToPersonalFromResultSet(rs);				
+			}
 			stmt.close();
 			conn.close();
 		} catch (ClassNotFoundException e) {
@@ -154,5 +159,36 @@ public class PersonalData {
 			}
 		}
 		return id;
+	}
+
+	public Personal login(Personal per) {
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		Personal found = null;
+		String query = "SELECT `personal`.`legajo`,`personal`.`dni`, "
+					+ "`personal`.`apellido`, `personal`.`nombre`, `personal`.`direccion`, `personal`.`telefono`, "
+					+ "`personal`.`fecha_incorporacion`, `personal`.`tipo`, `personal`.`usuario`,`personal`.`contrasenia` "
+					+ "FROM personal where personal.usuario = ? and personal.contrasenia = ?";
+		
+		try {
+			stmt= FactoryConnection.getInstancia().getConn().prepareStatement(query);
+			stmt.setString(1,per.getUsuario());
+			stmt.setString(2,  per.getContrasenia());
+			ResultSet rs = stmt.executeQuery();
+			if(rs.next()){
+				found = this.mapToPersonalFromResultSet(rs);
+			}
+			stmt.close();
+			conn.close();
+		} catch (ClassNotFoundException e) {
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (DataBaseConnectionException e) {
+			
+		} catch (Exception e) {
+			
+		}
+		return found;
 	}
 }

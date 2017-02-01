@@ -45,8 +45,8 @@ public class ABMPersonal extends HttpServlet {
 		per.setContrasenia(request.getParameter("contrasenia"));
 		PersonalLogic pl = new PersonalLogic();
 		per.setEstado(Estado.NEW);
-		int id = pl.save(per);
-		response.getWriter().append(String.valueOf(id));
+		per = pl.save(per);
+		response.getWriter().append(String.valueOf(per.getLegajo()));
 	}
 
 	/**

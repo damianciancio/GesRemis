@@ -11,12 +11,14 @@ public class PersonalLogic {
 	public ArrayList<Personal> getAll() throws ClassNotFoundException, DataBaseConnectionException, ConsultaSQLException, Exception{
 		return new PersonalData().getAll();
 	}
-	public int save (Personal p){
-		int i = 0;
+	public Personal save (Personal p){
 		try {
-			i = new PersonalData().save(p);
+			p.setLegajo(new PersonalData().save(p));
 		} catch (Exception e) {
 		}
-		return i;
+		return p;
+	}
+	public Personal login(Personal per) {
+		return new PersonalData().login(per);
 	}
 }

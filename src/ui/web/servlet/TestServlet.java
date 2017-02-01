@@ -66,7 +66,8 @@ public class TestServlet extends HttpServlet {
 		} catch (Exception e) {
 			response.getWriter().append("Exception");
 		}*/
-		response.sendRedirect("altaPersonal.jsp");
+		request.setAttribute("modo", Estado.NEW);
+		request.getRequestDispatcher("altaPersonal.jsp").forward(request, response);
 	}
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

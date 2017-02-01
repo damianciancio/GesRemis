@@ -28,7 +28,7 @@
 					}%>
 				<li><p>Tipo</p><select name="tipo"><option><%= html %></option></select></li>
 				<li><p>Usuario</p><input name="usuario"></input></li>
-				<li><p>Contraseña</p><input name="contrasenia" type="password"></input></li>
+				<li><p>Contraseña</p><input name="contrasenia" type="password"></input></li><input name="modo" display='none' value="<%= request.getAttribute("modo") %>"></input>
 				<li><button type="submit">Guardar</button></li>
 			</ul>
 		</form>	

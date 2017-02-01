@@ -33,29 +33,31 @@ public class Login extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String usuario = request.getParameter("usuario");
-		String contrasenia = Security.MD5(request.getParameter("contrasenia"));
-		Personal per = new Personal();
-		per.setUsuario(usuario);
-		per.setContrasenia(contrasenia);
-		if (per.getUsuario() == null) {
-			response.sendRedirect("login.jsp");
-		} else {
-			Personal p = new PersonalLogic().login(per);
-			if (p == null) {
-				response.getWriter().append("invalido");
+		if (null == request.getSession().getAttribute("usuarioActual")) {
+			String usuario = request.getParameter("usuario");
+			String contrasenia = Security.MD5(request.getParameter("contrasenia"));
+			Personal per = new Personal();
+			per.setUsuario(usuario);
+			per.setContrasenia(contrasenia);
+			if (per.getUsuario() == null) {
+				response.sendRedirect("login.jsp");
 			} else {
-				HttpSession session = request.getSession();
-				session.setAttribute("usuarioActual", p);
-			}
+				Personal p = new PersonalLogic().login(per);
+				if (p == null) {
+					response.getWriter().append("invalido");
+				} else {
+					if (p.isHabilitado()) {
+						HttpSession session = request.getSession();
+						session.setAttribute("usuarioActual", p);
+					} else {
+						//usuario no habilitado
+					}
+				}
+			} 
 		}
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 

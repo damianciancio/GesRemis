@@ -13,6 +13,7 @@ public class Personal extends Entity {
 	private TipoPersonal tipo;
 	private String usuario;
 	private String contrasenia;
+	private boolean habilitado;
 	
 	public String getUsuario() {
 		return usuario;
@@ -77,4 +78,26 @@ public class Personal extends Entity {
 	public void setTipo(String tipo) {
 		this.tipo = TipoPersonal.valueOf(tipo);
 	}
-}
+	public boolean isHabilitado() {
+		return this.habilitado;
+	}
+	public void setHabilitado(boolean habilitado) {
+		this.habilitado = habilitado;
+	}
+	public void setHabilitado(int bool) {
+		this.setHabilitado(1 == bool);
+	}
+	public void setEstado(String estado) {
+		if (estado.equals("NEW")) {
+			this.setEstado(Estado.NEW);
+		} else 
+			if (estado.equals("MODIFIED")) {
+			this.setEstado(Estado.MODIFIED);
+		} else if (estado.equals("DELETED")) {
+			this.setEstado(Estado.DELETED);
+		} else {
+			this.setEstado(Estado.UNMODIFIED);
+		}
+
+		}
+	}

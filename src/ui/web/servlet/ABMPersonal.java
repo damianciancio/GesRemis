@@ -44,7 +44,8 @@ public class ABMPersonal extends HttpServlet {
 		per.setUsuario(request.getParameter("usuario"));
 		per.setContrasenia(request.getParameter("contrasenia"));
 		PersonalLogic pl = new PersonalLogic();
-		per.setEstado(Estado.NEW);
+		per.setEstado(request.getParameter("modo"));
+		response.getWriter().append(per.getEstado().name());
 		per = pl.save(per);
 		response.getWriter().append(String.valueOf(per.getLegajo()));
 	}

@@ -1,6 +1,6 @@
 package business.entities;
 
-public class Modelo {
+public class Modelo extends Entity {
 	private int id;
 	private String descripcion;
 	private Marca marca;

@@ -2,7 +2,7 @@ package business.entities;
 
 import java.util.Date;
 
-public class Remis {
+public class Remis extends Entity {
 	private int id;
 	private String patente;
 	private Date fechaIncorporacion;
@@ -11,6 +11,7 @@ public class Remis {
 	private int idMarca;
 	private int descModelo;
 	private Modelo modelo;
+	private Personal choferActual;
 	
 	public int getId() {
 		return id;
@@ -59,5 +60,11 @@ public class Remis {
 	}
 	public void setModelo(Modelo modelo) {
 		this.modelo = modelo;
+	}
+	public Personal getChoferActual(){
+		return choferActual;
+	}
+	public void setChoferActual(Personal choferActual){
+		this.choferActual = choferActual;
 	}
 }

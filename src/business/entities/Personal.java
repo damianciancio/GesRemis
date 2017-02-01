@@ -2,7 +2,7 @@ package business.entities;
 
 import java.util.Date;
 
-public class Personal {
+public class Personal extends Entity {
 	private int legajo;
 	private String dni;
 	private String apellido;

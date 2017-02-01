@@ -2,7 +2,7 @@ package business.entities;
 
 import java.util.Date;
 
-public class ChoferRemis {
+public class ChoferRemis extends Entity {
 	private int idChofer;
 	private Personal chofer;
 	private int idRemis;

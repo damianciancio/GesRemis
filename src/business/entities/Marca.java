@@ -1,6 +1,6 @@
 package business.entities;
 
-public class Marca {
+public class Marca extends Entity {
 	
 	private int id;
 	private String descripcion;

@@ -34,6 +34,9 @@ public class ABMPersonal extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		Personal per = new Personal();
+		if(!request.getParameter("legajo").equals("")){
+			per.setLegajo(Integer.parseInt(request.getParameter("legajo")));
+		}
 		per.setNombre(request.getParameter("nombre"));
 		per.setApellido(request.getParameter("apellido"));
 		per.setDni(request.getParameter("dni"));

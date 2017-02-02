@@ -112,11 +112,60 @@ public class PersonalData {
 		case NEW: 
 			 id = insert(per);
 			break;
+		case MODIFIED:
+			id = update(per);
 		default:
 			break;
 		}
 		return id;
 	}
+	private int update(Personal per) throws DataBaseConnectionException, ConsultaSQLException{
+		int id = 0;
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		String query = "UPDATE `ges_remis`.`personal` "
+				+ "SET "
+				+ "`dni` = ?, "
+				+ "`apellido` = ?, "
+				+ "`nombre` = ?, "
+				+ "`direccion` = ?, "
+				+ "`telefono` = ?, "
+				+ "`tipo` = ?, "
+				+ "`is_habilitado` = ? "
+				+ "WHERE `legajo` = ?";
+		try {
+			stmt = FactoryConnection.getInstancia().getConn().prepareStatement(query);
+		}
+		catch (Exception e){
+			throw new DataBaseConnectionException();
+		}
+		try {
+			stmt.setString(1, per.getDni());
+			stmt.setString(2, per.getApellido());
+			stmt.setString(3, per.getNombre());
+			stmt.setString(4, per.getDireccion());
+			stmt.setString(5, per.getTelefono());
+			stmt.setString(6, per.getTipo().name());
+			stmt.setInt(7, per.getHabilitado());
+			stmt.setInt(8, per.getLegajo());
+			int affectedRows = stmt.executeUpdate();
+			if (affectedRows == 1) {
+				id = per.getLegajo();
+			}
+		} catch (Exception e) {
+			throw new ConsultaSQLException();
+		}
+		finally {
+			try {
+				rs.close();
+				stmt.close();
+			} catch (SQLException e) {
+			}
+		}
+		return id;
+	}
+	
 	private int insert(Personal per) throws DataBaseConnectionException, ConsultaSQLException{
 		int id = 0;
 		Connection conn = null;

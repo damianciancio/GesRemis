@@ -78,6 +78,13 @@ public class Personal extends Entity {
 	public void setTipo(String tipo) {
 		this.tipo = TipoPersonal.valueOf(tipo);
 	}
+	public int getHabilitado(){
+		if(this.habilitado){
+			return 1;
+		} else {
+			return 0;
+		}
+	}
 	public boolean isHabilitado() {
 		return this.habilitado;
 	}

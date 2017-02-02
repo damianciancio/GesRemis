@@ -33,6 +33,7 @@
 				String usuario = "";
 				String legajo = "";
 				if(!emptyFields) {
+					legajo = String.valueOf(personaActual.getLegajo());
 					nombre = personaActual.getNombre();
 					apellido = personaActual.getApellido();
 					dni = personaActual.getDni();
@@ -40,7 +41,7 @@
 					telefono = personaActual.getTelefono();
 					usuario = personaActual.getUsuario();
 				} %>
-				<li style="display:none"><p>Legajo</p><input type="text" name="legajo" value="<%=legajo %>"></input></li>
+				<li style="display:none"><p>Legajo</p><input type="text" name="legajo" value="<%= legajo %>"></input></li>
 				<li><p>Nombre</p><input type="text" name="nombre" value="<%=nombre %>"></input></li>
 				<li><p>Apellido</p><input name="apellido" value="<%=apellido %>"></input></li>
 				<li><p>Dni</p><input name="dni" value="<%=dni %>"></input></li>

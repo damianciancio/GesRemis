@@ -65,7 +65,13 @@
 					}%>
 				<li><p>Tipo</p><select name="tipo"><option></option><%= html %></select></li>
 				<li><p>Usuario</p><input name="usuario" value="<%=usuario %>"></input></li>
-				<li><p>Contraseña</p><input name="contrasenia" type="password"></input></li><div style="display:none"><input name="modo" value="<%= request.getAttribute("modo") %>"></input></div>
+				<li><p>Contraseña</p><input name="contrasenia" type="password"></input></li>
+				<% 
+				String modo = "NEW";
+				if(!emptyFields){
+					modo = "MODIFIED";
+				} %>
+				<div style="display:none"><input name="modo" value="<%= modo %>"></input></div>
 				<li><button type="submit">Guardar</button></li>
 			</ul>
 		</form>	

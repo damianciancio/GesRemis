@@ -21,4 +21,8 @@ public class PersonalLogic {
 	public Personal login(Personal per) {
 		return new PersonalData().login(per);
 	}
+	
+	public Personal getOne(Personal buscado) {
+		return new PersonalData().getOne(buscado);
+	}
 }

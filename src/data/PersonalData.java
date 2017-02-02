@@ -83,7 +83,8 @@ public class PersonalData {
 		String query = "SELECT `personal`.`legajo`,`personal`.`dni`, "
 					+ "`personal`.`apellido`, `personal`.`nombre`, `personal`.`direccion`, `personal`.`telefono`, "
 					+ "`personal`.`fecha_incorporacion`, `personal`.`tipo`, `personal`.`usuario`,`personal`.`contrasenia` "
-					+ "FROM personal where personal.legajo = ?";
+					+ "FROM personal where personal.legajo = ? "
+					+ "and is_habilitado = 1";
 		
 		try {
 			stmt= FactoryConnection.getInstancia().getConn().prepareStatement(query);

@@ -132,7 +132,6 @@ public class PersonalData {
 				+ "`direccion` = ?, "
 				+ "`telefono` = ?, "
 				+ "`tipo` = ?, "
-				+ "`is_habilitado` = ? "
 				+ "WHERE `legajo` = ?";
 		try {
 			stmt = FactoryConnection.getInstancia().getConn().prepareStatement(query);
@@ -147,8 +146,7 @@ public class PersonalData {
 			stmt.setString(4, per.getDireccion());
 			stmt.setString(5, per.getTelefono());
 			stmt.setString(6, per.getTipo().name());
-			stmt.setInt(7, per.getHabilitado());
-			stmt.setInt(8, per.getLegajo());
+			stmt.setInt(7, per.getLegajo());
 			int affectedRows = stmt.executeUpdate();
 			if (affectedRows == 1) {
 				id = per.getLegajo();

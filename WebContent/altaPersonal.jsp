@@ -9,13 +9,19 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Alta personal</title>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script type="text/javascript" src="js/jquery.validate.js"></script>
+<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap-theme.css">
+<link rel="stylesheet" type="text/css" href="bootstrap/js/bootstrap.js">
+<link rel="stylesheet" type="text/css" href="bootstrap/js/npm.js">
+<script type="text/javascript" src="js/scripts.js"></script>
+<link rel="stylesheet" type="text/css" href="css/styles.css">
 </head>
 	<body>
-		<form action="ABMPersonal" method="post">
-			<ul>
+		<form id="form-abm-personal" action="ABMPersonal" method="post">
+			<fieldset>
 				<% 
 				boolean emptyFields = true;
 				Personal personaActual = new Personal();
@@ -41,40 +47,56 @@
 					telefono = personaActual.getTelefono();
 					usuario = personaActual.getUsuario();
 				} %>
-				<li style="display:none"><p>Legajo</p><input type="text" name="legajo" value="<%= legajo %>"></input></li>
-				<li><p>Nombre</p><input type="text" name="nombre" value="<%=nombre %>"></input></li>
-				<li><p>Apellido</p><input name="apellido" value="<%=apellido %>"></input></li>
-				<li><p>Dni</p><input name="dni" value="<%=dni %>"></input></li>
-				<li><p>Dirección</p><input name="direccion" value="<%=direccion %>"></input></li>
-				<li><p>Teléfono</p><input name="telefono" value="<%=telefono %>"></input></li>
-				<li><p>Fecha de incorporación</p><input name="fechaIncorporacion" type="date" value="<%	Date date = null;
+
+				<% 
+				String modo = "NEW";
+				if(!emptyFields){
+					modo = "MODIFIED";
+				} %>
+
+
+				<div class="form-group" style="display:none"><label for="legajo">Legajo</label><input class="form-control" type="text" name="legajo" value="<%= legajo %>"><%= legajo %></input></div>
+				<div class="form-group"><label for="nombre">Nombre</label><input class="form-control" type="text" name="nombre" value="<%=nombre %>" required></input></div>
+				<div class="form-group"><label for="apellido">Apellido</label><input class="form-control" type="text" name="apellido" value="<%=apellido %>" required></input></div>
+				<div class="form-group"><label for="dni">Dni</label><input class="form-control" type="text" name="dni" value="<%=dni %>" required></input></div>
+				<div class="form-group"><label for="direccion">Dirección</label><input class="form-control" type="text" name="direccion" value="<%=direccion %>" required></input></div>
+				<div class="form-group"><label for="telefono">Teléfono</label><input class="form-control" class="form-control" type="text" name="telefono" value="<%=telefono %>" required></input></div>
+				<div class="form-group"><label for="fechaIncorporacion">Fecha de incorporación</label><input class="form-control" name="fechaIncorporacion" type="date" value="<%	Date date = null;
 					if(emptyFields){
 						date = Calendar.getInstance().getTime();
 					}
 					else {
 						date = personaActual.getFechaIncorporacion();
 					}
-						SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");%><%= sdf.format(date) %>"></input></li>
+						SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");%><%= sdf.format(date) %>" required></input></p>
 					<% List<TipoPersonal> tipos = Arrays.asList(TipoPersonal.values());
 					String html = "";
 					for (TipoPersonal tipo : tipos ) {
 						if(!emptyFields) {
 							if(tipo.equals(personaActual.getTipo())) {
 								html += "<option selected=\"selected\">"+ tipo.name() +"</option>";
+							} else {
+								html += "<option>"+ tipo.name() +"</option>";
 							}
-						}
+						} else {
+							html += "<option>"+ tipo.name() +"</option>";
+						} 
 					}%>
-				<li><p>Tipo</p><select name="tipo"><option></option><%= html %></select></li>
-				<li><p>Usuario</p><input name="usuario" value="<%=usuario %>"></input></li>
-				<li><p>Contraseña</p><input name="contrasenia" type="password"></input></li>
+				<div class="form-group"><label for="tipo">Tipo</label><select class="form-control" name="tipo"><option></option><%= html %></select></div>
+				<div class="form-group"><label for="usuario">Usuario</label><input class="form-control" type="text" name="usuario" value="<%=usuario %>" required></input></div>
+				
 				<% 
-				String modo = "NEW";
-				if(!emptyFields){
-					modo = "MODIFIED";
-				} %>
-				<div style="display:none"><input name="modo" value="<%= modo %>"></input></div>
-				<li><button type="submit">Guardar</button></li>
-			</ul>
+					String htmlHideOldPass = "";
+					if(modo.equals("NEW")){
+						htmlHideOldPass = "style=\"display:none\"";
+					}; 
+
+				%><div class="form-group" <%= htmlHideOldPass %>><label for="antiguaContrasenia">Antigua contraseña</label><input id="antiguaContrasenia" class="form-control" name="antiguaContrasenia" type="password" required></input></div>
+				<div class="form-group"><label for="contrasenia">Contraseña</label><input class="form-control" name="contrasenia" type="password" required></input></div>
+				<div class="form-group"><label for="confirmarContrasenia">Confirmar contraseña</label><input id="confirmarContrasenia" class="form-control" name="confirmarContrasenia" type="password" required></input></div>
+				<div class="form-group" style="display:none"><input class="form-control" type="text" name="modo" value="<%= modo %>" ></input></div>
+				</fieldset>
+				<div><button type="submit">Guardar</button></div>
 		</form>	
 	</body>
 </html>

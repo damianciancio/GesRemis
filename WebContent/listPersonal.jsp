@@ -11,7 +11,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.js"></script>
 <script type="text/javascript" src="scripts.js"></script>
-<title>Insert title here</title>
+<title>Listado de personal</title>
 </head>
 <body>
 	<% ArrayList<Personal> personal;

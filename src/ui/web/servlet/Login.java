@@ -49,8 +49,9 @@ public class Login extends HttpServlet {
 					if (p.isHabilitado()) {
 						HttpSession session = request.getSession();
 						session.setAttribute("usuarioActual", p);
+						response.sendRedirect("listPersonal.jsp");
 					} else {
-						//usuario no habilitado
+						response.getWriter().append("usuario no habilitado");
 					}
 				}
 			} 

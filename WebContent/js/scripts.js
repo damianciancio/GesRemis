@@ -1,5 +1,6 @@
 $(document).ready( function(){
 	validarFormAbmPersonal();
+	$('.datepicker').datepicker();
 });
 function validarFormAbmPersonal(){
 	if ($('input[name="modo"]').val() == 'NEW') {
@@ -88,3 +89,4 @@ function validarFormAbmPersonalModificacion(){
 		}
 	});
 }
+

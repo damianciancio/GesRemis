@@ -14,7 +14,15 @@
 <title>Listado de personal</title>
 </head>
 <body>
-	<% ArrayList<Personal> personal;
+	<% 
+	Personal usuarioActual = (Personal)request.getSession().getAttribute("usuarioActual");
+	if(usuarioActual == null){
+		response.sendRedirect("notPermission.html");
+	} else if(usuarioActual.getTipo().name() != "Administrativo") {
+		response.sendRedirect("notPermission.html");
+	}
+	
+	ArrayList<Personal> personal;
 	String html = "";
 	try {
 		personal = (new PersonalLogic()).getAll();

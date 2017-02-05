@@ -2,6 +2,7 @@
 <%@page import="java.util.*"%>
 <%@page import="business.entities.*"%>
 <%@page import="business.logic.*"%>
+<%@page import="util.web.*"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -10,19 +11,18 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Alta personal</title>
 
-<script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.js"></script>
-<script type="text/javascript" src="js/jquery.validate.js"></script>
-<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.css">
-<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap-theme.css">
-<link rel="stylesheet" type="text/css" href="bootstrap/js/bootstrap.js">
-<link rel="stylesheet" type="text/css" href="bootstrap/js/npm.js">
-<script type="text/javascript" src="js/scripts.js"></script>
-<link rel="stylesheet" type="text/css" href="css/styles.css">
+<%= Html.getLinksStylesAndScripts() %>
 </head>
 	<body>
 		<form id="form-abm-personal" action="ABMPersonal" method="post">
 			<fieldset>
 				<% 
+				Personal usuarioActual = (Personal)request.getSession().getAttribute("usuarioActual");
+				if(usuarioActual == null){
+					response.sendRedirect("notPermission.html");
+				} else if(usuarioActual.getTipo().name() != "Administrativo") {
+					response.sendRedirect("notPermission.html");
+				}
 				boolean emptyFields = true;
 				Personal personaActual = new Personal();
 				if(request.getParameter("id") != null){
@@ -61,14 +61,18 @@
 				<div class="form-group"><label for="dni">Dni</label><input class="form-control" type="text" name="dni" value="<%=dni %>" required></input></div>
 				<div class="form-group"><label for="direccion">Dirección</label><input class="form-control" type="text" name="direccion" value="<%=direccion %>" required></input></div>
 				<div class="form-group"><label for="telefono">Teléfono</label><input class="form-control" class="form-control" type="text" name="telefono" value="<%=telefono %>" required></input></div>
-				<div class="form-group"><label for="fechaIncorporacion">Fecha de incorporación</label><input class="form-control" name="fechaIncorporacion" type="date" value="<%	Date date = null;
+				<%	Date date = null;
 					if(emptyFields){
 						date = Calendar.getInstance().getTime();
 					}
 					else {
 						date = personaActual.getFechaIncorporacion();
 					}
-						SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");%><%= sdf.format(date) %>" required></input></p>
+						SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+				%>
+				<div class="form-group input-append date" data-date="<%= sdf.format(date) %>" data-date-format="dd-mm-yyyy">
+					<label for="fechaIncorporacion">Fecha de incorporación</label>
+					<input class="form-control" name="fechaIncorporacion" value="<%= sdf.format(date) %>" required></input></p>
 					<% List<TipoPersonal> tipos = Arrays.asList(TipoPersonal.values());
 					String html = "";
 					for (TipoPersonal tipo : tipos ) {

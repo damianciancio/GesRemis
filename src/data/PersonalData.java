@@ -29,7 +29,8 @@ public class PersonalData {
 					+ "personal.fecha_incorporacion, "
 					+ "personal.tipo, "
 					+ "personal.usuario, "
-					+ "personal.contrasenia "
+					+ "personal.contrasenia, "
+					+ "personal.is_habilitado "
 					+ "FROM ges_remis.personal");
 			
 			
@@ -72,6 +73,7 @@ public class PersonalData {
 		per.setTipo(rs.getString(8));
 		per.setUsuario(rs.getString(9));
 		per.setContrasenia(rs.getString(10));
+		per.setHabilitado(rs.getInt(11));
 		return per;
 	}
 	
@@ -82,9 +84,10 @@ public class PersonalData {
 		Personal found = null;
 		String query = "SELECT `personal`.`legajo`,`personal`.`dni`, "
 					+ "`personal`.`apellido`, `personal`.`nombre`, `personal`.`direccion`, `personal`.`telefono`, "
-					+ "`personal`.`fecha_incorporacion`, `personal`.`tipo`, `personal`.`usuario`,`personal`.`contrasenia` "
+					+ "`personal`.`fecha_incorporacion`, `personal`.`tipo`, `personal`.`usuario`,`personal`.`contrasenia`, "
+					+ "personal.is_habilitado "
 					+ "FROM personal where personal.legajo = ? "
-					+ "and is_habilitado = 1";
+					+ "and personal.is_habilitado = 1";
 		
 		try {
 			stmt= FactoryConnection.getInstancia().getConn().prepareStatement(query);
@@ -98,7 +101,7 @@ public class PersonalData {
 		} catch (ClassNotFoundException e) {
 			
 		} catch (SQLException e) {
-			
+			System.out.println(e);
 		} catch (DataBaseConnectionException e) {
 			
 		} catch (Exception e) {
@@ -215,8 +218,9 @@ public class PersonalData {
 		Personal found = null;
 		String query = "SELECT `personal`.`legajo`,`personal`.`dni`, "
 					+ "`personal`.`apellido`, `personal`.`nombre`, `personal`.`direccion`, `personal`.`telefono`, "
-					+ "`personal`.`fecha_incorporacion`, `personal`.`tipo`, `personal`.`usuario`,`personal`.`contrasenia` "
-					+ "FROM personal where personal.usuario = ? and personal.contrasenia = ?";
+					+ "`personal`.`fecha_incorporacion`, `personal`.`tipo`, `personal`.`usuario`,`personal`.`contrasenia`, "
+					+ "`personal`.`is_habilitado` "
+					+ "FROM personal where personal.usuario = ? and personal.contrasenia = ? and personal.is_habilitado = 1";
 		
 		try {
 			stmt= FactoryConnection.getInstancia().getConn().prepareStatement(query);

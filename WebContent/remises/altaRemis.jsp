@@ -25,7 +25,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<form id="form-abm-personal" action="ABMPersonal" method="post">
+	<form id="form-abm-personal" action="ABMRemis" method="post">
 			<fieldset>
 				<% 
 				Personal usuarioActual = (Personal)request.getSession().getAttribute("usuarioActual");
@@ -79,7 +79,7 @@
 					else {
 						date = remisActual.getFechaIncorporacion();
 					}
-						SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+						SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 				%>
 				<div class="form-group input-append date" data-date="<%= sdf.format(date) %>" data-date-format="dd-mm-yyyy">
 					<label for="fechaIncorporacion">Fecha de incorporación</label>
@@ -94,7 +94,7 @@
 				%>
 				<div class="form-group input-append date" data-date="<%= fechaFormateada %>" data-date-format="dd-mm-yyyy">
 					<label for="fechaBaja">Fecha de baja</label>
-					<input type="date" class="form-control" name="fechaBaja" value="<%= fechaFormateada %>" required></input></p>
+					<input type="date" class="form-control" name="fechaBaja" value="<%= fechaFormateada %>" ></input></p>
 					<% ArrayList<Marca> marcas = (new MarcasLogic()).getAll();
 					String html = "";
 					for (Marca marca : marcas ) {
@@ -113,10 +113,12 @@
 					<% ArrayList<Personal> personal = (new PersonalLogic()).getAllChoferesWithoutRemis();
 					html = "";
 						personal.add(remisActual.getChoferActual());
+						String originalValue = "0";
 					for (Personal chofer : personal ) {
 						if(!emptyFields) {
 							if(chofer.equals(remisActual.getChoferActual())) {
 								html += "<option selected=\"selected\" value=\"" + chofer.getLegajo()+"\">"+ chofer.getNombreApellido() +"</option>";
+								originalValue = String.valueOf(chofer.getLegajo());
 							} else {
 								html += "<option value=\"" + chofer.getLegajo()+"\">"+ chofer.getNombreApellido() +"</option>";
 							}
@@ -124,7 +126,20 @@
 							html += "<option value=\"" + chofer.getLegajo()+"\">"+ chofer.getNombreApellido() +"</option>";
 						} 
 					}%>
-				<div class="form-group"><label for="choferActual">Chofer asignado</label><select class="form-control" name="choferActual"><option value="0"></option><%= html %></select></div>
+				<div class="form-group"><label for="choferActual">Chofer asignado</label><select class="form-control" id="choferActual" original-value="<%= originalValue %>" name="choferActual"><option value="0"></option><%= html %></select></div>
+
+				<%	Date fechaDesdeChoferActual = null;
+					if(!emptyFields && remisActual.getFechaDesdeChoferActual() != null){
+						fechaDesdeChoferActual = remisActual.getFechaDesdeChoferActual();
+					}
+					else {
+						fechaDesdeChoferActual = Calendar.getInstance().getTime();
+					}
+				%>
+				<div class="form-group input-append date" id="fechaDesdeChoferActual" data-date="<%= sdf.format(fechaDesdeChoferActual) %>" data-date-format="dd-mm-yyyy">
+					<label for="fechaDesdeChoferActual">Fecha de incorporación</label>
+					<input class="form-control" type="date" name="fechaDesdeChoferActual" value="<%= sdf.format(fechaDesdeChoferActual) %>" ></input></p>
+
 				
 				<div class="form-group" style="display:none"><input class="form-control" type="text" name="modo" value="<%= modo %>" ></input></div>
 				</fieldset>

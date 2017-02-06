@@ -1,6 +1,7 @@
 $(document).ready( function(){
 	validarFormAbmPersonal();
 	$('.datepicker').datepicker();
+	altaRemisBehavior();
 });
 function validarFormAbmPersonal(){
 	if ($('input[name="modo"]').val() == 'NEW') {
@@ -86,6 +87,18 @@ function validarFormAbmPersonalModificacion(){
 				required: "Por favor, ingrese nombre de usuario",
 				minlength: "Debe ser de al menos 6 caracteres"
 			}
+		}
+	});
+}
+
+/*abmremis */
+function altaRemisBehavior(){
+	$("#fechaDesdeChoferActual").hide();
+	$("#choferActual").on("change", function(){
+		if($(this).val() != $(this).attr("original-value")){
+			$("#fechaDesdeChoferActual").show();
+		} else {
+			$("#fechaDesdeChoferActual").hide();
 		}
 	});
 }

@@ -94,19 +94,7 @@ public class Personal extends Entity {
 	public void setHabilitado(int bool) {
 		this.setHabilitado(1 == bool);
 	}
-	public void setEstado(String estado) {
-		if (estado.equals("NEW")) {
-			this.setEstado(Estado.NEW);
-		} else 
-			if (estado.equals("MODIFIED")) {
-			this.setEstado(Estado.MODIFIED);
-		} else if (estado.equals("DELETED")) {
-			this.setEstado(Estado.DELETED);
-		} else {
-			this.setEstado(Estado.UNMODIFIED);
-		}
-
-		}
+	
 	public String getNombreApellido(){
 		return this.apellido + ", " + this.nombre;
 	}

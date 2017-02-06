@@ -15,4 +15,8 @@ public class RemisLogic {
 	public Remis getOne(Remis buscado){
 		return (new RemisesData().getOne(buscado));
 	}
+	
+	public int save(Remis remis){
+		return new RemisesData().save(remis);
+	}
 }

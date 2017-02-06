@@ -41,8 +41,9 @@
 		html += "<th>Patente</th><th>Marca</th><th>Modelo</th><th>Chofer Actual</th>\n</tr></thead><tbody data-link=\"row\" class=\"rowlink\">";
 		for(Remis r : flota) {
 			html += "<tr>\n";
+			html += "<td>";
 			html += "<a href=\"altaRemis.jsp?id="+r.getId()+"\">";
-			html += "<td>"+ r.getPatente() +"</td></a>";
+			html += r.getPatente() +"</a></td>";
 			html += "<td>"+ r.getDescMarca() +"</td>";
 			html += "<td>"+ r.getDescModelo() +"</td>";
 			if(r.getChoferActual().getLegajo() != 0){

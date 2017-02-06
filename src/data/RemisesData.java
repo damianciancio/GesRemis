@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 import business.entities.Personal;
@@ -149,5 +150,60 @@ public ArrayList<Remis> getAll() throws ClassNotFoundException, DataBaseConnecti
 			
 		}
 		return rem;
+	}
+	
+	public int save(Remis remis){
+		int id = 0;
+		switch (remis.getEstado()) {
+		case NEW:
+			id = this.insert(remis);
+			break;
+		case MODIFIED:
+			//id = this.update(remis);
+			break;
+		}
+		return id;
+	}
+	
+	public int insert(Remis remis){
+		int id = 0;
+		Connection conn = null;
+		ResultSet rs = null;
+		PreparedStatement ps = null;
+		String query = "INSERT INTO `ges_remis`.`remises` "
+				+ "(`patente`, "
+				+ "`fecha_incorporacion`, "
+				+ "`fecha_baja`, "
+				+ "`anio_modelo`, "
+				+ "`id_marca`, "
+				+ "`desc_modelo`) "
+				+ "VALUES "
+				+ "(?, "
+				+ "?, "
+				+ "?, "
+				+ "?, "
+				+ "?, "
+				+ "?) ";
+		try {
+			conn = FactoryConnection.getInstancia().getConn();
+			ps = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+			id = ps.executeUpdate();
+			if(remis.getChoferActual().getLegajo() != 0){
+				//this.updateChoferActual(remis);
+			}
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (DataBaseConnectionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return id;
 	}
 }

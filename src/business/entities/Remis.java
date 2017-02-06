@@ -9,9 +9,10 @@ public class Remis extends Entity {
 	private Date fechaBaja;
 	private int anioModelo;
 	private int idMarca;
-	private int descModelo;
-	private Modelo modelo;
+	private String descMarca;
+	private String descModelo;
 	private Personal choferActual;
+	private Date fechaDesdeChoferActual;
 	
 	public int getId() {
 		return id;
@@ -49,22 +50,28 @@ public class Remis extends Entity {
 	public void setIdMarca(int idMarca) {
 		this.idMarca = idMarca;
 	}
-	public int getDescModelo() {
+	public String getDescMarca(){
+		return descMarca;
+	}
+	public void setDescMarca(String marca){
+		this.descMarca = marca;
+	}
+	public String getDescModelo() {
 		return descModelo;
 	}
-	public void setDescModelo(int descModelo) {
+	public void setDescModelo(String descModelo) {
 		this.descModelo = descModelo;
-	}
-	public Modelo getModelo() {
-		return modelo;
-	}
-	public void setModelo(Modelo modelo) {
-		this.modelo = modelo;
 	}
 	public Personal getChoferActual(){
 		return choferActual;
 	}
 	public void setChoferActual(Personal choferActual){
 		this.choferActual = choferActual;
+	}
+	public Date getFechaDesdeChoferActual(){
+		return fechaDesdeChoferActual;
+	}
+	public void setFechaDesdeChoferActual(Date fecha){
+		this.fechaDesdeChoferActual = fecha;
 	}
 }

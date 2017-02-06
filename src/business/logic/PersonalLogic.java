@@ -25,4 +25,8 @@ public class PersonalLogic {
 	public Personal getOne(Personal buscado) {
 		return new PersonalData().getOne(buscado);
 	}
+	
+	public ArrayList<Personal> getAllChoferesWithoutRemis(){
+		return new PersonalData().getAllChoferesWithoutRemis();
+	}
 }

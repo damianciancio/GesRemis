@@ -230,6 +230,7 @@ public class PersonalData {
 			if(rs.next()){
 				found = this.mapToPersonalFromResultSet(rs);
 			}
+			rs.close();
 			stmt.close();
 			conn.close();
 		} catch (ClassNotFoundException e) {
@@ -239,6 +240,38 @@ public class PersonalData {
 		} catch (DataBaseConnectionException e) {
 			
 		} catch (Exception e) {
+			
+		}
+		return found;
+	}
+	
+	public ArrayList<Personal> getAllChoferesWithoutRemis(){
+		String query = "select `personal`.`legajo`,`personal`.`dni`, "
+				+ "`personal`.`apellido`, `personal`.`nombre`, `personal`.`direccion`, `personal`.`telefono`, "
+				+ "`personal`.`fecha_incorporacion`, `personal`.`tipo`, `personal`.`usuario`,`personal`.`contrasenia`, "
+				+ "`personal`.`is_habilitado` "
+				+ "from personal "
+				+ "where legajo not in (select rc.legajo "
+				+ "from remises_choferes rc "
+				+ "where rc.fecha_desde = (select max(rc2.fecha_desde) "
+				+ "from remises_choferes rc2 "
+				+ "where rc2.id_remis = rc.id_remis)) and tipo = \"Chofer\"";
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs =  null;
+		ArrayList<Personal> found = new ArrayList<Personal>();
+		try {
+			conn = FactoryConnection.getInstancia().getConn();
+			ps = conn.prepareStatement(query);
+			rs = ps.executeQuery();
+			while(rs.next()){
+				System.out.println("hola");
+				found.add(this.mapToPersonalFromResultSet(rs));
+			}
+			rs.close();
+			ps.close();
+			conn.close();
+		} catch(Exception e){
 			
 		}
 		return found;

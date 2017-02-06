@@ -9,17 +9,25 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.js"></script>
-<script type="text/javascript" src="scripts.js"></script>
+	<script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.js"></script>
+	<script type="text/javascript" src="../js/jquery.validate.js"></script>
+	<link rel="stylesheet" type="text/css" href="../bootstrap/css/bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="../bootstrap/css/bootstrap-theme.css">
+	<link rel="stylesheet" type="text/css" href="../bootstrap/js/bootstrap.js">
+	<link rel="stylesheet" type="text/css" href="../bootstrap/js/npm.js">
+	<link rel="stylesheet" type="text/css" href="../datepicker/css/datepicker.css">
+	<script type="text/javascript" src="../datepicker/js/bootstrap-datepicker.js"></script>
+	<script type="text/javascript" src="../js/scripts.js"></script>
+	<link rel="stylesheet" type="text/css" href="../css/styles.css">
 <title>Listado de personal</title>
 </head>
 <body>
 	<% 
 	Personal usuarioActual = (Personal)request.getSession().getAttribute("usuarioActual");
 	if(usuarioActual == null){
-		response.sendRedirect("notPermission.html");
+		response.sendRedirect("../notPermission.html");
 	} else if(usuarioActual.getTipo().name() != "Administrativo") {
-		response.sendRedirect("notPermission.html");
+		response.sendRedirect("../notPermission.html");
 	}
 	
 	ArrayList<Personal> personal;

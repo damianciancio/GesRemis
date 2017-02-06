@@ -107,4 +107,7 @@ public class Personal extends Entity {
 		}
 
 		}
+	public String getNombreApellido(){
+		return this.apellido + ", " + this.nombre;
+	}
 	}

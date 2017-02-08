@@ -13,19 +13,19 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 	<script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.js"></script>
-	<script type="text/javascript" src="../js/jquery.validate.js"></script>
+	<script type="text/javascript" src="../bootstrap/js/bootstrap.js"></script>
 	<link rel="stylesheet" type="text/css" href="../bootstrap/css/bootstrap.css">
 	<link rel="stylesheet" type="text/css" href="../bootstrap/css/bootstrap-theme.css">
-	<link rel="stylesheet" type="text/css" href="../bootstrap/js/bootstrap.js">
-	<link rel="stylesheet" type="text/css" href="../bootstrap/js/npm.js">
-	<link rel="stylesheet" type="text/css" href="../datepicker/css/datepicker.css">
+	<script type="text/javascript" src="../js/bootbox.min.js"></script>
+	<script type="text/javascript" src="../js/jquery.validate.js"></script>
 	<script type="text/javascript" src="../datepicker/js/bootstrap-datepicker.js"></script>
-	<script type="text/javascript" src="../js/scripts.js"></script>
+	<link rel="stylesheet" type="text/css" href="../datepicker/css/datepicker.css">
+	<script type="text/javascript" src="../js/scripts.js?v=1.0.1"></script>
 	<link rel="stylesheet" type="text/css" href="../css/styles.css">
 <title>Insert title here</title>
 </head>
 <body>
-	<form id="form-abm-personal" action="ABMRemis" method="post">
+	<form id="form-abm-remis" action="ABMRemis" method="post">
 			<fieldset>
 				<% 
 				Personal usuarioActual = (Personal)request.getSession().getAttribute("usuarioActual");
@@ -70,8 +70,11 @@
 
 
 				<div class="form-group" style="display:none"><label for="id">ID</label><input class="form-control" type="text" name="id" value="<%= id %>"><%= id %></input></div>
-				<div class="form-group"><label for="patente">Patente</label><input class="form-control" type="text" name="patente" value="<%= patente %>" required></input></div>
-				<div class="form-group"><label for="anioModelo">Año modelo</label><input class="form-control" type="text" name="anioModelo" value="<%= anioModelo %>" required></input></div>
+
+				<div class="form-group"><label for="patente">Patente</label><input class="form-control" type="text" name="patente" value="<%= patente %>"></input></div>
+
+				<div class="form-group"><label for="anioModelo">Año modelo</label><input class="form-control" type="text" name="anioModelo" value="<%= anioModelo %>"></input></div>
+
 				<%	Date date = null;
 					if(emptyFields){
 						date = Calendar.getInstance().getTime();
@@ -83,7 +86,7 @@
 				%>
 				<div class="form-group input-append date" data-date="<%= sdf.format(date) %>" data-date-format="dd-mm-yyyy">
 					<label for="fechaIncorporacion">Fecha de incorporación</label>
-					<input class="form-control" type="date" name="fechaIncorporacion" value="<%= sdf.format(date) %>" required></input></p>
+					<input class="form-control" type="date" name="fechaIncorporacion" value="<%= sdf.format(date) %>"></input></div>
 				<%	Date dateLow = null;
 					String fechaFormateada = ""; 
 					if(!emptyFields && remisActual.getFechaBaja() != null){
@@ -92,6 +95,7 @@
 					}
 					
 				%>
+
 				<div class="form-group input-append date" data-date="<%= fechaFormateada %>" data-date-format="dd-mm-yyyy">
 					<label for="fechaBaja">Fecha de baja</label>
 					<input type="date" class="form-control" name="fechaBaja" value="<%= fechaFormateada %>" ></input></p>
@@ -108,7 +112,9 @@
 							html += "<option value=\"" + marca.getId()+"\">"+ marca.getDescripcion() +"</option>";
 						} 
 					}%>
-				<div class="form-group"><label for="marca">Marca</label><select class="form-control" name="marca"><option value="0"></option><%= html %></select></div>
+				
+				<div class="form-group"><label for="marca">Marca</label><select class="form-control" name="marca"><option value="0"></option><%= html %></select>
+				</div>
 				
 					<% ArrayList<Personal> personal = (new PersonalLogic()).getAllChoferesWithoutRemis();
 					html = "";
@@ -128,6 +134,7 @@
 					}%>
 				<div class="form-group"><label for="choferActual">Chofer asignado</label><select class="form-control" id="choferActual" original-value="<%= originalValue %>" name="choferActual"><option value="0"></option><%= html %></select></div>
 
+				
 				<%	Date fechaDesdeChoferActual = null;
 					if(!emptyFields && remisActual.getFechaDesdeChoferActual() != null){
 						fechaDesdeChoferActual = remisActual.getFechaDesdeChoferActual();
@@ -138,7 +145,7 @@
 				%>
 				<div class="form-group input-append date" id="fechaDesdeChoferActual" data-date="<%= sdf.format(fechaDesdeChoferActual) %>" data-date-format="dd-mm-yyyy">
 					<label for="fechaDesdeChoferActual">Fecha de incorporación</label>
-					<input class="form-control" type="date" name="fechaDesdeChoferActual" value="<%= sdf.format(fechaDesdeChoferActual) %>" ></input></p>
+					<input class="form-control" type="date" name="fechaDesdeChoferActual" value="<%= sdf.format(fechaDesdeChoferActual) %>" ></input></div>
 
 				
 				<div class="form-group" style="display:none"><input class="form-control" type="text" name="modo" value="<%= modo %>" ></input></div>

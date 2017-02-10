@@ -1,17 +1,24 @@
-$(document).ready( function(){
+var $j = jQuery.noConflict();
+
+$j(document).ready( function(){
 	validarFormAbmPersonal();
-	$('.datepicker').datepicker();
+	$j(function(){
+  		$j( '.datepicker' ).datepicker({
+  			dateFormat: "mm-dd-yyy"
+  		});
+  	});
 	altaRemisBehavior();
 });
+
 function validarFormAbmPersonal(){
-	if ($('input[name="modo"]').val() == 'NEW') {
+	if ($j('input[name="modo"]').val() == 'NEW') {
 		validarFormAbmPersonalAlta();
-	} else if ($('input[name="modo"]').val() == 'MODIFIED') {
+	} else if ($j('input[name="modo"]').val() == 'MODIFIED') {
 		validarFormAbmPersonalModificacion();
 	}
 }
 function validarFormAbmPersonalAlta(){
-	$("#form-abm-personal").validate({
+	$j("#form-abm-personal").validate({
 		rules: {
 			nombre: "required",
 			apellido: "required",
@@ -50,7 +57,7 @@ function validarFormAbmPersonalAlta(){
 }
 
 function validarFormAbmPersonalModificacion(){
-	$("#form-abm-personal").validate({
+	$j("#form-abm-personal").validate({
 		rules: {
 			legajo: "required",
 			nombre: "required",
@@ -93,33 +100,33 @@ function validarFormAbmPersonalModificacion(){
 
 /*abmremis */
 function altaRemisBehavior(){
-	$("#fechaDesdeChoferActual").hide();
-	var fechaIncorporacionOriginal = $('#fechaIncorporacion').val();
-	$("#choferActual").on("change", function(){
-		if($(this).val() != $(this).attr("original-value")){
-			$("#fechaDesdeChoferActual").val(fechaIncorporacionOriginal);
-			$("#fechaDesdeChoferActual").show();
+	$j("#fechaDesdeChoferActual").hide();
+	var fechaIncorporacionOriginal = $j('#fechaIncorporacion').val();
+	$j("#choferActual").on("change", function(){
+		if($j(this).val() != $j(this).attr("original-value")){
+			$j("#fechaDesdeChoferActual").val(fechaIncorporacionOriginal);
+			$j("#fechaDesdeChoferActual").show();
 		} else {
-			$("#fechaDesdeChoferActual").val(new Date());
-			$("#fechaDesdeChoferActual").hide();
+			$j("#fechaDesdeChoferActual").val(new Date());
+			$j("#fechaDesdeChoferActual").hide();
 		}
 	});
-	$("#form-abm-remis").submit(function(){
+	$j("#form-abm-remis").submit(function(){
 		return validarABMRemis();
 	});
 
 }
 
 function validarABMRemis(){
-	var mode = $('[name="modo"]').val();
-	var patente = $('[name="patente"]').val();
-	var anioModelo = $('[name="anioModelo"]').val();
-	var fechaIncorporacion = $('[name="fechaIncorporacion"]').val();
-	var marca = $('select [name="marca"]').val();
-	var choferActual = $('select [name="choferActual"]').val();
-	var choferActualOriginal = $("#choferActual").attr("original-value");
-	var fechaDesdeChoferActual = $('[name="fechaDesdeChoferActual"]').val();
-	var id = $('[name="id"]').val();
+	var mode = $j('[name="modo"]').val();
+	var patente = $j('[name="patente"]').val();
+	var anioModelo = $j('[name="anioModelo"]').val();
+	var fechaIncorporacion = $j('[name="fechaIncorporacion"]').val();
+	var marca = $j('select [name="marca"]').val();
+	var choferActual = $j('select [name="choferActual"]').val();
+	var choferActualOriginal = $j("#choferActual").attr("original-value");
+	var fechaDesdeChoferActual = $j('[name="fechaDesdeChoferActual"]').val();
+	var id = $j('[name="id"]').val();
 
 	if (!validatePatente(patente)) {
 		bootbox.alert("Ingrese una patente válida");
@@ -145,7 +152,7 @@ function validarABMRemis(){
 		bootbox.alert("Ha cambiado de chofer, ingrese la fecha desde la cual lo conduce");
 		return false;
 	}
-	if (modo == 'MODIFIED' && ID == '') {
+	if (mode == 'MODIFIED' && ID == '') {
 		return false;
 	}
 	return true;

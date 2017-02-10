@@ -15,17 +15,16 @@
 	<script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.js"></script>
 	<script type="text/javascript" src="../bootstrap/js/bootstrap.js"></script>
 	<link rel="stylesheet" type="text/css" href="../bootstrap/css/bootstrap.css">
-	<link rel="stylesheet" type="text/css" href="../bootstrap/css/bootstrap-theme.css">
 	<script type="text/javascript" src="../js/bootbox.min.js"></script>
 	<script type="text/javascript" src="../js/jquery.validate.js"></script>
 	<script type="text/javascript" src="../datepicker/js/bootstrap-datepicker.js"></script>
 	<link rel="stylesheet" type="text/css" href="../datepicker/css/datepicker.css">
-	<script type="text/javascript" src="../js/scripts.js?v=1.0.1"></script>
+	<script type="text/javascript" src="../js/scripts.js?v=1.0.2"></script>
 	<link rel="stylesheet" type="text/css" href="../css/styles.css">
 <title>Insert title here</title>
 </head>
 <body>
-	<form id="form-abm-remis" action="ABMRemis" method="post">
+	<form id="form-abm-remis" action="../ABMRemis" method="post">
 			<fieldset>
 				<% 
 				Personal usuarioActual = (Personal)request.getSession().getAttribute("usuarioActual");
@@ -36,13 +35,13 @@
 				}
 				boolean emptyFields = true;
 				Remis remisActual = new Remis();
-				if(request.getParameter("id") != null){
+				String id = "";
+				if(!(request.getParameter("id")== null || request.getParameter("id").equals(""))){
 					emptyFields = false;
-					int id = Integer.parseInt(request.getParameter("id"));
-					remisActual.setId(id);
+					id = request.getParameter("id");
+					remisActual.setId(Integer.parseInt(id));
 					remisActual = (new RemisLogic()).getOne(remisActual);
 				} 
-				String id = "";
 				String patente = "";
 				int idMarca = 0;
 				String descModelo = "";
@@ -51,7 +50,6 @@
 				String anioModelo = "";
 				Personal choferActual = null;
 				if(!emptyFields) {
-					id = String.valueOf(remisActual.getId());
 					patente = remisActual.getPatente();
 					idMarca = remisActual.getIdMarca();
 					descModelo = remisActual.getDescModelo();
@@ -82,11 +80,11 @@
 					else {
 						date = remisActual.getFechaIncorporacion();
 					}
-						SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+						SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
 				%>
-				<div class="form-group input-append date" data-date="<%= sdf.format(date) %>" data-date-format="dd-mm-yyyy">
+				<div class="form-group input-append" >
 					<label for="fechaIncorporacion">Fecha de incorporación</label>
-					<input class="form-control" type="date" name="fechaIncorporacion" value="<%= sdf.format(date) %>"></input></div>
+					<input class="form-control datepicker" type="text" name="fechaIncorporacion" value="<%= sdf.format(date) %>" ></input></input></div>
 				<%	Date dateLow = null;
 					String fechaFormateada = ""; 
 					if(!emptyFields && remisActual.getFechaBaja() != null){
@@ -96,20 +94,20 @@
 					
 				%>
 
-				<div class="form-group input-append date" data-date="<%= fechaFormateada %>" data-date-format="dd-mm-yyyy">
+				<div class="form-group input-append">
 					<label for="fechaBaja">Fecha de baja</label>
-					<input type="date" class="form-control" name="fechaBaja" value="<%= fechaFormateada %>" ></input></p>
+					<input class="form-control datepicker" type="text" name="fechaBaja" value="<%= fechaFormateada %>" ></input>
 					<% ArrayList<Marca> marcas = (new MarcasLogic()).getAll();
 					String html = "";
 					for (Marca marca : marcas ) {
 						if(!emptyFields) {
 							if(marca.getId() == remisActual.getIdMarca()) {
-								html += "<option selected=\"selected\" value=\"" + marca.getId()+"\">"+ marca.getDescripcion() +"</option>";
+								html += "<option selected=\"selected\" value=\"" + String.valueOf(marca.getId())+"\">"+ marca.getDescripcion() +"</option>";
 							} else {
-								html += "<option value=\"" + marca.getId()+"\">"+ marca.getDescripcion() +"</option>";
+								html += "<option value=\"" + String.valueOf(marca.getId())+"\">"+ marca.getDescripcion() +"</option>";
 							}
 						} else {
-							html += "<option value=\"" + marca.getId()+"\">"+ marca.getDescripcion() +"</option>";
+							html += "<option value=\"" + String.valueOf(marca.getId())+"\">"+ marca.getDescripcion() +"</option>";
 						} 
 					}%>
 				
@@ -118,7 +116,8 @@
 				
 					<% ArrayList<Personal> personal = (new PersonalLogic()).getAllChoferesWithoutRemis();
 					html = "";
-						personal.add(remisActual.getChoferActual());
+						if(remisActual.getChoferActual() != null)
+							personal.add(remisActual.getChoferActual());
 						String originalValue = "0";
 					for (Personal chofer : personal ) {
 						if(!emptyFields) {
@@ -143,10 +142,10 @@
 						fechaDesdeChoferActual = Calendar.getInstance().getTime();
 					}
 				%>
-				<div class="form-group input-append date" id="fechaDesdeChoferActual" data-date="<%= sdf.format(fechaDesdeChoferActual) %>" data-date-format="dd-mm-yyyy">
+				<div class="form-group" id="fechaDesdeChoferActual" " >
 					<label for="fechaDesdeChoferActual">Fecha de incorporación</label>
-					<input class="form-control" type="date" name="fechaDesdeChoferActual" value="<%= sdf.format(fechaDesdeChoferActual) %>" ></input></div>
-
+					<input class="form-control datepicker" type="text" name="fechaDesdeChoferActual" value="<%= sdf.format(fechaDesdeChoferActual) %>" ></input></div>
+				</div>
 				
 				<div class="form-group" style="display:none"><input class="form-control" type="text" name="modo" value="<%= modo %>" ></input></div>
 				</fieldset>

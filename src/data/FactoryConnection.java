@@ -10,10 +10,10 @@ import util.exception.DataBaseConnectionException;
 public class FactoryConnection {
 	//Capturo datos de config.properties
 		private String dbDriver="com.mysql.jdbc.Driver";
-		private String host="localhost";
+		private String host="mysql3856-env-4699624.jelastic.saveincloud.net";
+		private String pass="PXKvap58942";
 		private String port="3306";
 		private String user="root";
-		private String pass="root";
 		private String db="ges_remis";
 		private String dbType="mysql";
 		

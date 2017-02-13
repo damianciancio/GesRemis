@@ -2,6 +2,8 @@ package ui.web.servlet;
 
 import java.io.IOException;
 import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -42,7 +44,13 @@ public class ABMPersonal extends HttpServlet {
 		per.setDni(request.getParameter("dni"));
 		per.setDireccion(request.getParameter("direccion"));
 		per.setTelefono(request.getParameter("telefono"));
-		per.setFechaIncorporacion(Date.valueOf(request.getParameter("fechaIncorporacion")));
+		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+		try {
+			per.setFechaIncorporacion(sdf.parse(request.getParameter("fechaIncorporacion")));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		per.setTipo(request.getParameter("tipo"));
 		per.setUsuario(request.getParameter("usuario"));
 		per.setContrasenia(request.getParameter("contrasenia"));

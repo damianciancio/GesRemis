@@ -134,7 +134,7 @@ public class PersonalData {
 				+ "`nombre` = ?, "
 				+ "`direccion` = ?, "
 				+ "`telefono` = ?, "
-				+ "`tipo` = ?, "
+				+ "`tipo` = ? "
 				+ "WHERE `legajo` = ?";
 		try {
 			stmt = FactoryConnection.getInstancia().getConn().prepareStatement(query);

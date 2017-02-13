@@ -22,7 +22,7 @@
 	<link rel="stylesheet" type="text/css" href="../css/styles.css">
 </head>
 	<body>
-		<form id="form-abm-personal" action="ABMPersonal" method="post">
+		<form id="form-abm-personal" action="../ABMPersonal" method="post">
 			<fieldset>
 				<% 
 				Personal usuarioActual = (Personal)request.getSession().getAttribute("usuarioActual");
@@ -76,11 +76,11 @@
 					else {
 						date = personaActual.getFechaIncorporacion();
 					}
-						SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+						SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
 				%>
-				<div class="form-group input-append date" data-date="<%= sdf.format(date) %>" data-date-format="dd-mm-yyyy">
+				<div class="form-group input-append" >
 					<label for="fechaIncorporacion">Fecha de incorporación</label>
-					<input type="date" class="form-control" name="fechaIncorporacion" value="<%= sdf.format(date) %>" required></input></p>
+					<input class="form-control datepicker" type="text" name="fechaIncorporacion" value="<%= sdf.format(date) %>" ></input></input></div>
 					<% List<TipoPersonal> tipos = Arrays.asList(TipoPersonal.values());
 					String html = "";
 					for (TipoPersonal tipo : tipos ) {

@@ -112,6 +112,14 @@ function altaRemisBehavior(){
 		}
 	});
 	$j("#form-abm-remis").submit(function(){
+		var choferActual = $j('select [name="choferActual"]').val();
+		var choferActualOriginal = $j("#choferActual").attr("original-value");
+
+		if (choferActual != choferActualOriginal) {
+			$j('input [name="cambiaChofer"]').val("1");
+		} else {
+			$j('input [name="cambiaChofer"]').val("0");
+		}	
 		return validarABMRemis();
 	});
 
@@ -123,6 +131,7 @@ function validarABMRemis(){
 	var anioModelo = $j('[name="anioModelo"]').val();
 	var fechaIncorporacion = $j('[name="fechaIncorporacion"]').val();
 	var marca = $j('select [name="marca"]').val();
+	var descModelo = $j('select [name="descModelo"]').val();
 	var choferActual = $j('select [name="choferActual"]').val();
 	var choferActualOriginal = $j("#choferActual").attr("original-value");
 	var fechaDesdeChoferActual = $j('[name="fechaDesdeChoferActual"]').val();
@@ -148,11 +157,14 @@ function validarABMRemis(){
 		bootbox.alert("Seleccione la marca.");
 		return false;
 	}
+	if (descModelo == '') {
+		bootbox.alert("Ingrese el modelo.");
+	}
 	if (choferActual != '0' && choferActual != choferActualOriginal && fechaDesdeChoferActual == '') {
 		bootbox.alert("Ha cambiado de chofer, ingrese la fecha desde la cual lo conduce");
 		return false;
 	}
-	if (mode == 'MODIFIED' && ID == '') {
+	if (mode == 'MODIFIED' && id == '') {
 		return false;
 	}
 	return true;

@@ -68,7 +68,7 @@
 					else {
 						date = personaActual.getFechaIncorporacion();
 					}
-						SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+						SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
 				%>
 				<div class="form-group input-append date" data-date="<%= sdf.format(date) %>" data-date-format="dd-mm-yyyy">
 					<label for="fechaIncorporacion">Fecha de incorporación</label>

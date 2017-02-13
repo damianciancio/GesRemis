@@ -113,7 +113,8 @@
 				
 				<div class="form-group"><label for="marca">Marca</label><select class="form-control" name="marca"><option value="0"></option><%= html %></select>
 				</div>
-				
+				<div class="form-group"><label for="descModelo">Modelo</label><input class="form-control" type="text" name="descModelo" value="<%= descModelo %>"></input>
+				</div>
 					<% ArrayList<Personal> personal = (new PersonalLogic()).getAllChoferesWithoutRemis();
 					html = "";
 						if(remisActual.getChoferActual() != null)
@@ -122,13 +123,13 @@
 					for (Personal chofer : personal ) {
 						if(!emptyFields) {
 							if(chofer.equals(remisActual.getChoferActual())) {
-								html += "<option selected=\"selected\" value=\"" + chofer.getLegajo()+"\">"+ chofer.getNombreApellido() +"</option>";
+								html += "<option selected=\"selected\" value=\"" + String.valueOf(chofer.getLegajo())+"\">"+ chofer.getNombreApellido() +"</option>";
 								originalValue = String.valueOf(chofer.getLegajo());
 							} else {
-								html += "<option value=\"" + chofer.getLegajo()+"\">"+ chofer.getNombreApellido() +"</option>";
+								html += "<option value=\"" + String.valueOf(chofer.getLegajo())+"\">"+ chofer.getNombreApellido() +"</option>";
 							}
 						} else {
-							html += "<option value=\"" + chofer.getLegajo()+"\">"+ chofer.getNombreApellido() +"</option>";
+							html += "<option value=\"" + String.valueOf(chofer.getLegajo())+"\">"+ chofer.getNombreApellido() +"</option>";
 						} 
 					}%>
 				<div class="form-group"><label for="choferActual">Chofer asignado</label><select class="form-control" id="choferActual" original-value="<%= originalValue %>" name="choferActual"><option value="0"></option><%= html %></select></div>
@@ -147,6 +148,7 @@
 					<input class="form-control datepicker" type="text" name="fechaDesdeChoferActual" value="<%= sdf.format(fechaDesdeChoferActual) %>" ></input></div>
 				</div>
 				
+				<div class="form-group" style="display:none"><input class="form-control" type="text" name="cambiaChofer" value="" ></input></div>
 				<div class="form-group" style="display:none"><input class="form-control" type="text" name="modo" value="<%= modo %>" ></input></div>
 				</fieldset>
 				<div><button type="submit">Guardar</button></div>

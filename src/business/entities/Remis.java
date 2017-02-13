@@ -13,6 +13,7 @@ public class Remis extends Entity {
 	private String descModelo;
 	private Personal choferActual;
 	private Date fechaDesdeChoferActual;
+	private boolean cambiaChofer;
 	
 	public int getId() {
 		return id;
@@ -73,5 +74,11 @@ public class Remis extends Entity {
 	}
 	public void setFechaDesdeChoferActual(Date fecha){
 		this.fechaDesdeChoferActual = fecha;
+	}
+	public boolean getCambiaChofer(){
+		return this.cambiaChofer;
+	}
+	public void setCambiaChofer(boolean cambiaChofer){
+		this.cambiaChofer = cambiaChofer;
 	}
 }

@@ -36,13 +36,15 @@ public class ABMRemis extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Remis remis = new Remis();
+		try{
 		if (!request.getParameter("id").equals("")) {
 			remis.setId(Integer.parseInt(request.getParameter("id")));
 		}
 		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
 		remis.setPatente(request.getParameter("patente"));
-		remis.setAnioModelo(Integer.parseInt(request.getParameter("anioModelo")));
-		try {
+		if(!request.getParameter("anioModelo").equals("")) {
+			remis.setAnioModelo(Integer.parseInt(request.getParameter("anioModelo")));
+		}
 			remis.setFechaIncorporacion(sdf.parse(request.getParameter("fechaIncorporacion")));
 			if(!request.getParameter("fechaBaja").equals("")) 
 				remis.setFechaBaja(sdf.parse(request.getParameter("fechaBaja")));
@@ -55,9 +57,12 @@ public class ABMRemis extends HttpServlet {
 		
 		Personal choferActual = new Personal();
 		int legajo = 0;
-		if (!request.getParameter("choferActual").equals("0")) {
-			legajo = Integer.parseInt("choferActual");
+		if (!request.getParameter("choferActual").equals("0")&& !request.getParameter("choferActual").equals("")) {
+			legajo = Integer.parseInt(request.getParameter("choferActual"));
+			remis.setCambiaChofer(true);
 		}
+		remis.setDescModelo(request.getParameter("descModelo"));
+		System.out.println(remis.getDescModelo());
 		choferActual.setLegajo(legajo);
 		remis.setChoferActual(choferActual);
 		remis.setEstado(request.getParameter("modo"));

@@ -8,21 +8,29 @@ import java.util.Properties;
 
 import util.exception.DataBaseConnectionException;
 public class FactoryConnection {
-	//Capturo datos de config.properties
-		private String dbDriver="com.mysql.jdbc.Driver";
-		private String host="mysql3856-env-4699624.jelastic.saveincloud.net";
-		private String pass="PXKvap58942";
-		private String port="3306";
-		private String user="root";
-		private String db="ges_remis";
-		private String dbType="mysql";
-		
-		private Connection conn;
-		private int cantConn=0;
-		
-		private FactoryConnection() throws ClassNotFoundException, Exception {
+	
+	private String dbDriver="com.mysql.jdbc.Driver";
+	private String host="mysql3860-gesremis.jelastic.saveincloud.net";
+	private String pass="MOItxm14217";
+	private boolean developmentStatus = true;
+	private String port="3306";
+	private String user="root";
+	private String db="ges_remis";
+	private String dbType="mysql";
+	
+	private Connection conn;
+	private int cantConn=0;
+	
+	
+	
+	private
+	 FactoryConnection() throws ClassNotFoundException, Exception {
 			try {
 				Class.forName(dbDriver);
+				if(developmentStatus){
+					host = "localhost";
+					pass = "root";
+				}
 				
 				//Properties propiedades = new Properties();
 			    //InputStream entrada = null;
@@ -50,7 +58,7 @@ public class FactoryConnection {
 		private static FactoryConnection instancia;
 		
 		public static FactoryConnection getInstancia() throws ClassNotFoundException, Exception{
-			if (instancia==null){
+			if (instancia == null){
 				instancia = new FactoryConnection();
 			}
 			return instancia;

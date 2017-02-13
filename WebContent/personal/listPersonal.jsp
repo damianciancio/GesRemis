@@ -17,6 +17,8 @@
 	<link rel="stylesheet" type="text/css" href="../bootstrap/js/npm.js">
 	<link rel="stylesheet" type="text/css" href="../datepicker/css/datepicker.css">
 	<script type="text/javascript" src="../datepicker/js/bootstrap-datepicker.js"></script>
+	<script type="text/javascript" src="../jasny-bootstrap/js/jasny-bootstrap.js"></script>
+	<link rel="stylesheet" type="text/css" href="../jasny-bootstrap/css/jasny-bootstrap.css">
 	<script type="text/javascript" src="../js/scripts.js"></script>
 	<link rel="stylesheet" type="text/css" href="../css/styles.css">
 <title>Listado de personal</title>
@@ -34,10 +36,20 @@
 	String html = "";
 	try {
 		personal = (new PersonalLogic()).getAll();
-		html = "<ul>";
+		html = "<div class=\"responsive-table\">\n";
+		html += "<table class=\"table table-hover\">\n<thead>\n";
+		html += "<tr>\n";
+		html += "<th>Legajo</th><th>DNI</th><th>Apellido y nombre</th><th>Tipo</th>\n</tr></thead><tbody data-link=\"row\" class=\"rowlink\">";
 		for(Personal per : personal) {
-			html += "<li id="+ per.getLegajo() +"><a href=\"altaPersonal.jsp?id="+ per.getLegajo() +"\">"+ per.getApellido()+", "+per.getNombre()+"</a></li>"; 
+			html+= "<tr>";
+			html+= "<td><a href=\"altaPersonal.jsp?id="+ per.getLegajo()+"\">";
+			html+= per.getLegajo() + "</td>";
+			html+="<td>" + per.getDni() + "</td>";
+			html+="<td>" + per.getNombreApellido() + "</td>";
+			html+="<td>" + per.getTipo().name() + "</td>";
+			html+="</tr>";
 		}
+		html+="</tbody>";
 	} catch (Exception e) {
 		html += e.getMessage();
 	} %><%= html %>

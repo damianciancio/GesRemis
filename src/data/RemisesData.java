@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLType;
 import java.sql.Statement;
 import java.util.ArrayList;
 
@@ -98,9 +99,11 @@ public ArrayList<Remis> getAll() throws ClassNotFoundException, DataBaseConnecti
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
+		boolean instanceConnectionMaked = false;
 		
 		try {
 			conn = FactoryConnection.getInstancia().getConn();
+			instanceConnectionMaked = true;
 			ps = conn.prepareStatement(""
 					+ "select remises.id, remises.patente, remises.fecha_incorporacion, "
 					+ "remises.fecha_baja, remises.anio_modelo, remises.id_marca, "
@@ -149,6 +152,25 @@ public ArrayList<Remis> getAll() throws ClassNotFoundException, DataBaseConnecti
 		} catch (Exception e) {
 			
 		}
+		finally{
+			try {
+				rs.close();
+				rs = null;
+				ps.close();
+				ps = null;
+				if(instanceConnectionMaked)
+					FactoryConnection.getInstancia().releaseConn();
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (DataBaseConnectionException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		return rem;
 	}
 	
@@ -159,7 +181,7 @@ public ArrayList<Remis> getAll() throws ClassNotFoundException, DataBaseConnecti
 			id = this.insert(remis);
 			break;
 		case MODIFIED:
-			//id = this.update(remis);
+			id = this.update(remis);
 			break;
 		}
 		return id;
@@ -170,6 +192,7 @@ public ArrayList<Remis> getAll() throws ClassNotFoundException, DataBaseConnecti
 		Connection conn = null;
 		ResultSet rs = null;
 		PreparedStatement ps = null;
+		boolean instanceConnectionMaked = false;
 		String query = "INSERT INTO `ges_remis`.`remises` "
 				+ "(`patente`, "
 				+ "`fecha_incorporacion`, "
@@ -186,7 +209,17 @@ public ArrayList<Remis> getAll() throws ClassNotFoundException, DataBaseConnecti
 				+ "?) ";
 		try {
 			conn = FactoryConnection.getInstancia().getConn();
+			instanceConnectionMaked = true;
 			ps = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+			ps.setString(1, remis.getPatente());
+			ps.setDate(2, new java.sql.Date(remis.getFechaIncorporacion().getTime()));
+			if(remis.getFechaBaja() != null)
+			ps.setDate(3, new java.sql.Date(remis.getFechaBaja().getTime()));
+			else 
+				ps.setNull(3, java.sql.Types.DATE);
+			ps.setInt(4, remis.getAnioModelo());
+			ps.setInt(5, remis.getIdMarca());
+			ps.setString(6, remis.getDescModelo());
 			id = ps.executeUpdate();
 			if(remis.getChoferActual().getLegajo() != 0){
 				//this.updateChoferActual(remis);
@@ -203,6 +236,122 @@ public ArrayList<Remis> getAll() throws ClassNotFoundException, DataBaseConnecti
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+		finally{
+			try {
+				rs.close();
+				rs = null;
+				ps.close();
+				ps = null;
+				if(instanceConnectionMaked)
+					FactoryConnection.getInstancia().releaseConn();
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (DataBaseConnectionException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return id;
+	}
+	
+	private int update(Remis rem){
+		int id = 0;
+		Connection conn = null;
+		ResultSet rs = null;
+		PreparedStatement ps = null;
+		PreparedStatement psIfChangesRemis = null;
+		boolean instanceConnectionMaked = false;
+		String query = "UPDATE `ges_remis`.`remises` "
+				+ "SET "
+				+ "`patente` = ?, "
+				+ "`fecha_incorporacion` = ?, "
+				+ "`fecha_baja` = ?, "
+				+ "`anio_modelo` = ?, "
+				+ "`id_marca` = ?, "
+				+ "`desc_modelo` = ? "
+				+ "WHERE `id` = ?";
+		String queryIfChangesChofer = "";
+		if(rem.getCambiaChofer()){
+			queryIfChangesChofer = " INSERT INTO `ges_remis`.`remises_choferes` "
+				+ "(`legajo`, "
+				+ "`id_remis`, "
+				+ "`fecha_desde`) "
+				+ "VALUES "
+				+ "(?, "
+				+ "?, "
+				+ "?)";
+		}
+		try {
+			conn = FactoryConnection.getInstancia().getConn();
+			instanceConnectionMaked = true;
+			conn.setAutoCommit(false);
+			ps = conn.prepareStatement(query);
+			ps.setString(1, rem.getPatente());
+			ps.setDate(2, new java.sql.Date(rem.getFechaIncorporacion().getTime()));
+			if (rem.getFechaBaja() != null) {
+
+				ps.setDate(3, new java.sql.Date(rem.getFechaBaja().getTime()));
+			} else {
+				ps.setNull(3, java.sql.Types.DATE);
+			}
+			ps.setInt(4, rem.getAnioModelo());
+			ps.setInt(5, rem.getIdMarca());
+			ps.setString(6, rem.getDescModelo());
+			ps.setInt(7, rem.getId());
+			ps.executeUpdate();
+			if (rem.getCambiaChofer()) {
+				psIfChangesRemis = conn.prepareStatement(queryIfChangesChofer);
+				psIfChangesRemis.setInt(1, rem.getChoferActual().getLegajo());
+				psIfChangesRemis.setInt(2, rem.getId());
+				psIfChangesRemis.setDate(3, new java.sql.Date(rem.getFechaDesdeChoferActual().getTime()));
+
+				id = psIfChangesRemis.executeUpdate();
+			}
+			conn.commit();
+			
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (DataBaseConnectionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		finally{
+			try {
+				conn.setAutoCommit(true);
+				rs.close();
+				rs = null;
+				ps.close();
+				ps = null;
+				if(instanceConnectionMaked)
+					FactoryConnection.getInstancia().releaseConn();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (DataBaseConnectionException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		return id;
 	}

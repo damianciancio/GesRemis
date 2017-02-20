@@ -22,6 +22,7 @@
 	<link rel="stylesheet" type="text/css" href="../css/styles.css">
 </head>
 	<body>
+	<div class="main-wrapper-generic">
 		<form id="form-abm-personal" action="../ABMPersonal" method="post">
 			<fieldset>
 				<% 
@@ -110,5 +111,6 @@
 				</fieldset>
 				<div><button type="submit">Guardar</button></div>
 		</form>	
+		</div>
 	</body>
 </html>

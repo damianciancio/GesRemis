@@ -24,6 +24,7 @@
 <title>Listado de personal</title>
 </head>
 <body>
+<div class="main-wrapper-generic">
 	<% 
 	Personal usuarioActual = (Personal)request.getSession().getAttribute("usuarioActual");
 	if(usuarioActual == null){
@@ -53,5 +54,6 @@
 	} catch (Exception e) {
 		html += e.getMessage();
 	} %><%= html %>
+	</div>
 </body>
 </html>

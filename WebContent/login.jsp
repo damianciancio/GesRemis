@@ -18,6 +18,7 @@
 	<title>Iniciar sesión</title>
 </head>
 <body>
+<div class="main-wrapper-generic">
 	<form action="Login" method="post">
 		<h3>Login</h3>
 		<fieldset>
@@ -30,5 +31,6 @@
 		</fieldset>
 		<button type="submit">Ingresar</button>
 	</form>
+</div>
 </body>
 </html>

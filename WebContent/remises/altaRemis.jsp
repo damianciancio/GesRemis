@@ -24,6 +24,7 @@
 <title>Insert title here</title>
 </head>
 <body>
+<div class="main-wrapper-generic">
 	<form id="form-abm-remis" action="../ABMRemis" method="post">
 			<fieldset>
 				<% 
@@ -153,5 +154,6 @@
 				</fieldset>
 				<div><button type="submit">Guardar</button></div>
 		</form>
+</div>
 </body>
 </html>

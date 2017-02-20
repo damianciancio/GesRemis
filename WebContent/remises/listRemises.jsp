@@ -23,16 +23,18 @@
 <title>Listado de remises</title>
 </head>
 <body>
+<div class="main-wrapper-generic">
 	<% 
 	Personal usuarioActual = (Personal)request.getSession().getAttribute("usuarioActual");
+
+	String html = "";
 	if(usuarioActual == null){
 		response.sendRedirect("../notPermission.html");
 	} else if(usuarioActual.getTipo().name() != "Administrativo") {
 		response.sendRedirect("../notPermission.html");
-	}
+	} else {
 	
 	ArrayList<Remis> flota;
-	String html = "";
 	try {
 		flota = (new RemisLogic()).getAll();
 		html = "<div class=\"responsive-table\">\n";
@@ -56,6 +58,7 @@
 		html += "</body>";
 	} catch (Exception e) {
 		html += "hola";
-	} %><%= html %>
+	}} %><%= html %>
+	<div>
 </body>
 </html>
